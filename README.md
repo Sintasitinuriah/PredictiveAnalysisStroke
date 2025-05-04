@@ -258,6 +258,7 @@ Classification report memberikan metrik evaluasi secara lebih mendetail, termasu
 - F1-Score: Rata-rata harmonis antara precision dan recall.
 - Support: Jumlah contoh dalam masing-masing kelas (0 dan 1).
 Salah-satu contoh klasifikasi report pada Logistic Regression Evaluation:
+
 |class|Precision|recall|f1-score|support|
 |-----|---------|------|--------|-------|
 |0|0.97|0.75|0.85|569|
