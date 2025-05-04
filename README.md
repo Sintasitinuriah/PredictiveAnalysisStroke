@@ -18,6 +18,15 @@ Kementerian Kesehatan (Kemenkes) menargetkan peningkatan deteksi dini dislipidem
 
 Proyek ini bertujuan mendukung upaya pemerintah dalam meningkatkan deteksi dini stroke melalui pengembangan model *machine learning* yang mampu memprediksi potensi stroke sejak dini. Dataset yang digunakan mencakup informasi pasien seperti jenis kelamin, usia, penyakit penyerta, dan status merokok.
 
+## Referensi
+1. Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The Elements of Statistical Learning*. Springer.
+2. Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*. O'Reilly Media.
+3. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*.
+4. scikit-learn documentation: https://scikit-learn.org/stable/
+5. XGBoost documentation: https://xgboost.readthedocs.io/
+6. Cegah Stroke dengan Aktivitas Fisik : https://kemkes.go.id/id/rilis-kesehatan/cegah-stroke-dengan-aktivitas-fisik
+7. Kaggle Datasets: https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset
+
 ---
 
 # 1. Business Understanding
@@ -52,6 +61,7 @@ Proyek ini bertujuan mendukung upaya pemerintah dalam meningkatkan deteksi dini 
 ---
 
 # 2. Data Understanding
+Kondisi data saat ini masih belum siap untuk ddigunakan, dengan hal perlu dilakukan pembersian data seperti penanganan missing value, outliers dan duplikat data.
 
 #### Informasi Dataset
 
@@ -81,6 +91,12 @@ Proyek ini bertujuan mendukung upaya pemerintah dalam meningkatkan deteksi dini 
 | smoking_status     | formerly smoked, never smoked, smokes, Unknown                           |
 | stroke             | 1: pernah mengalami stroke, 0: tidak                                      |
 
+
+Jumlah data pada dataset ini adalah:
+|Jumlah Baris |Jumlah Kolom|
+|-------------|------------|
+|5110         |12          |
+
 ---
 
 ## 2.1 Exploratory Data Analysis (EDA)
@@ -89,17 +105,11 @@ Proyek ini bertujuan mendukung upaya pemerintah dalam meningkatkan deteksi dini 
 - Variabel terdiri dari numerik (age, avg_glucose_level, bmi) dan kategorik (gender, smoking_status, dll).
 - Target variabel adalah `stroke` (biner: 0 atau 1).
 
-### b. Menangani Missing Value
+### b. Missing Value
 - Variabel `bmi` mengandung missing value.
-- Strategi:
-  - Imputasi menggunakan nilai **median** untuk menjaga distribusi data.
-  - Alternatif: menggunakan model prediktif untuk imputasi jika jumlah missing value signifikan.
 
-### c. Menangani Outliers
+### c. Outliers
 - Outliers terdeteksi pada variabel `avg_glucose_level` dan `bmi`.
-- Penanganan:
-  - Menggunakan metode **IQR (Interquartile Range)** untuk deteksi.
-  - Transformasi log atau winsorizing jika diperlukan.
 
 ### d. Univariate Analysis
 - Visualisasi distribusi masing-masing variabel menggunakan histogram atau barplot.
@@ -119,30 +129,43 @@ Proyek ini bertujuan mendukung upaya pemerintah dalam meningkatkan deteksi dini 
 
 Tahapan ini bertujuan untuk menyiapkan data agar siap digunakan dalam proses pemodelan machine learning. Berikut langkah-langkahnya:
 
-### a. Encoding Fitur Kategori
+### a. Penanganan Missing Value dan Outliers
+ - Strategi penanganan missing value pada `bmi`:
+  - Imputasi menggunakan nilai **median** untuk menjaga distribusi data.
+  - Alternatif: menggunakan model prediktif untuk imputasi jika jumlah missing value signifikan.
+- Strategi penanganan Outliers pada `avg_glucose_level` dan `bmi` :
+  - Menggunakan metode **IQR (Interquartile Range)** untuk deteksi.
+  - Transformasi log atau winsorizing jika diperlukan.
+
+### b. Encoding Fitur Kategori
 - **Tujuan:** Mengubah fitur kategorik menjadi bentuk numerik agar dapat diproses oleh algoritma machine learning.
 - **Metode:**
   - **Label Encoding**: digunakan untuk fitur biner seperti `gender`, `ever_married`, `Residence_type`.
   - **One-Hot Encoding**: digunakan untuk fitur dengan lebih dari dua kategori seperti `work_type` dan `smoking_status`.
 
-### b. Pembagian Data
+### c. Pembagian Data
 - **Tujuan:** Memisahkan data menjadi data latih dan data uji untuk mengevaluasi performa model secara adil.
 - **Metode:** `train_test_split` dari scikit-learn.
   - Rasio umum: 80% data latih dan 20% data uji.
   - Stratifikasi berdasarkan label `stroke` untuk menjaga distribusi kelas.
 
-### c. SMOTE (Synthetic Minority Over-sampling Technique)
+### d. SMOTE (Synthetic Minority Over-sampling Technique)
 - **Tujuan:** Menyeimbangkan distribusi kelas target (`stroke`) yang tidak seimbang.
 - **Metode:**
   - SMOTE digunakan hanya pada **data latih**.
   - Membuat sintesis data minoritas agar model tidak bias terhadap kelas mayoritas.
 
-### d. Standarisasi
+### e. Standarisasi
 - **Tujuan:** Mengubah skala fitur numerik agar memiliki distribusi yang sama, membantu mempercepat dan meningkatkan performa model.
 - **Metode:**
   - Menggunakan **StandardScaler** dari scikit-learn.
   - Diterapkan pada fitur numerik seperti `age`, `avg_glucose_level`, dan `bmi`.
   - Penting: scaler di-*fit* hanya pada data latih, lalu di-*transform* pada data uji.
+
+### f. Reduksi data dengan PCA
+- **Tujuan:** Mengatasi overfitting pada model 
+- **Metode**
+  - **PCA** mengurangi jumlah fitur (dimensi) menjadi lebih sedikit, sehingga model menjadi lebih sederhana dan generalisasi lebih baik.
 
 ---
 # 4. Modelling
@@ -163,6 +186,11 @@ Logistic Regression adalah algoritma klasifikasi linear yang digunakan untuk mem
 - Rentan terhadap multikolinearitas.
 - Performa terbatas jika terdapat fitur yang saling berinteraksi secara kompleks.
 
+**Parameter LR yang digunakan**
+- `max_iter=1000` digunakan untuk maksimal model melakukan iterasi
+- `random_state=42` untuk menetapkan seed untuk generator angka acak
+- `class_weight='balanced'` digunakan secara otomatis menyesuaikan bobot antar kelas berdasarkan frekuensinya untuk mengatasi imbalance data
+
 ## b. Random Forest (Baseline Model)
 **Deskripsi:**  
 Random Forest adalah algoritma ensemble berbasis decision tree yang membangun banyak pohon keputusan dan menggabungkan hasilnya untuk meningkatkan akurasi dan mengurangi overfitting.
@@ -176,6 +204,10 @@ Random Forest adalah algoritma ensemble berbasis decision tree yang membangun ba
 - Interpretasi lebih sulit dibanding logistic regression.
 - Waktu pelatihan lebih lama.
 - Memiliki kompleksitas yang lebih tinggi dan membutuhkan lebih banyak sumber daya.
+
+**Parameter RF yang digunakan**
+- `random_state=42` untuk menetapkan seed untuk generator angka acak
+- `class_weight='balanced'` digunakan secara otomatis menyesuaikan bobot antar kelas berdasarkan frekuensinya untuk mengatasi imbalance data
 
 ## c. XGBoost (Model Kompleks + Hyperparameter Tuning)
 **Deskripsi:**  
@@ -192,6 +224,10 @@ Extreme Gradient Boosting (XGBoost) adalah algoritma boosting yang sangat efisie
 - Membutuhkan waktu pelatihan dan komputasi yang lebih besar.
 - Banyaknya hyperparameter membutuhkan eksperimen yang hati-hati.
 
+**Parameter XGBoost**
+- `random_state=42` untuk menetapkan seed untuk generator angka acak
+- `scale_pos_weight=scale` digunakan untuk memberikan bobot lebih pada kelas positif (biasanya kelas minoritas), sehingga model lebih memperhatikan kesalahan pada kelas tersebut
+
 **Hyperparameter Tuning:**
 - `n_estimators`: Jumlah boosting rounds.
 - `max_depth`: Kedalaman maksimum pohon.
@@ -204,17 +240,24 @@ Tuning dilakukan menggunakan Grid Search atau Randomized Search dengan validasi 
 
 ---
 # 5. Evaluation
+## 1. Evaluasi Kinerja Model 
+Dalam proses pengembangan model prediksi stroke, telah diuji tiga algoritma utama: **Logistic Regression, Random Forest Classifier, dan XGBoost**. Evaluasi dilakukan berdasarkan akurasi model sebagai metrik utama. Hasil evaluasi menunjukkan:
 
-## a. Classification Report
+- **Logistic Regression**: Akurasi moderat.
+- **Random Forest Classifier**: Mencapai akurasi **88%**, menunjukkan performa yang cukup baik dalam menangani fitur non-linear dan data kategorikal.
+- **XGBoost (dengan tuning hyperparameter)**: Memberikan performa terbaik dengan akurasi **90%**, menjadikannya algoritma yang paling optimal dalam kasus ini.
+
+Selain itu, penerapan **feature engineering dan standardisasi data** turut berkontribusi signifikan dalam meningkatkan performa model.
+Ada beberapa matrix yang digunakan dalam evaluasi model antara lain: 
+
+### a. Classification Report
 Classification report memberikan metrik evaluasi secara lebih mendetail, termasuk:
 
 - Precision: Proporsi prediksi positif yang benar.
 - Recall (Sensitivity): Proporsi kasus positif yang benar-benar terdeteksi.
 - F1-Score: Rata-rata harmonis antara precision dan recall.
 - Support: Jumlah contoh dalam masing-masing kelas (0 dan 1).
-
-Logistic Regression Evaluation:
-
+Salah-satu contoh klasifikasi report pada Logistic Regression Evaluation:
 |class|Precision|recall|f1-score|support|
 |-----|---------|------|--------|-------|
 |0|0.97|0.75|0.85|569|
@@ -229,22 +272,37 @@ Confusion matrix memberikan gambaran tentang bagaimana prediksi model dibandingk
 - True Negatives (TN): Jumlah kasus negatif yang diprediksi negatif.
 - False Positives (FP): Jumlah kasus negatif yang diprediksi positif (Type I error).
 - False Negatives (FN): Jumlah kasus positif yang diprediksi negatif (Type II error).
-
-Confussion Matrix Logistic Regression
+contoh Confussion Matrix dengan model Logistic Regression:
 [[524  45]
  [ 18   8]]
 
 ---
-# Kesimpulan 
-Meskipun telah dilakukan berbagai pendekatan seperti penanganan data imbalance (SMOTE), pemilihan algoritma yang lebih kompleks (seperti XGBoost), serta optimasi hyperparameter menggunakan Random Search, model masih menunjukkan performa yang kurang memuaskan — terutama dalam hal recall dan f1-score pada kelas minoritas (stroke).
+## 2. Dampak terhadap Business Understanding
 
+Model yang dibangun tidak hanya kuat secara teknis, namun juga **berdampak terhadap pemecahan masalah bisnis yang telah diidentifikasi**, yaitu:
+### Problem statement
 
----
-# Referensi
-1. Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The Elements of Statistical Learning*. Springer.
-2. Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*. O'Reilly Media.
-3. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*.
-4. scikit-learn documentation: https://scikit-learn.org/stable/
-5. XGBoost documentation: https://xgboost.readthedocs.io/
-6. Cegah Stroke dengan Aktivitas Fisik : https://kemkes.go.id/id/rilis-kesehatan/cegah-stroke-dengan-aktivitas-fisik
-7. Kaggle Datasets: https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset
+| Problem Statement | Kontribusi Model |
+|-------------------|------------------|
+| Tingginya angka kematian dan kecacatan akibat stroke | Model mampu memprediksi risiko stroke dengan akurasi tinggi, mendukung intervensi medis lebih awal. |
+| Rendahnya deteksi dini terhadap faktor risiko stroke (11,3%) | Model memanfaatkan data klinis sederhana untuk mendeteksi potensi stroke, membantu meningkatkan capaian deteksi dini. |
+| Kurangnya sistem skrining berbasis data | Model XGBoost dapat menjadi dasar sistem skrining otomatis yang berbasis data dan machine learning. |
+
+### Goals
+
+| Goals | Capaian Model |
+|-------|----------------|
+| Membangun prediksi potensi stroke berbasis data klinis | Telah dicapai dengan akurasi tinggi melalui algoritma XGBoost. |
+| Meningkatkan efektivitas deteksi dini stroke | Model dapat diintegrasikan ke proses skrining dan sistem klinis untuk meningkatkan efisiensi deteksi. |
+| Menyediakan solusi berbasis data yang terukur | Model dapat diterapkan pada sistem nyata untuk prediksi stroke secara terukur dan berbasis data. |
+
+### Dampak dari solusi statement
+
+Solusi statement memiliki **dampak nyata terhadap peningkatan layanan kesehatan**, di antaranya:
+- Memberikan **prediksi otomatis risiko stroke** yang dapat dipakai oleh dokter atau sistem informasi rumah sakit.
+- Memungkinkan **skrining massal secara cepat dan efisien**, terutama di daerah dengan keterbatasan tenaga medis.
+- Memberi **dukungan pengambilan keputusan berbasis data**, yang lebih objektif dan reproducible dibanding pemeriksaan subjektif.
+
+## 3. Kesimpulan Dampak
+Evaluasi membuktikan bahwa pendekatan berbasis machine learning tidak hanya meningkatkan akurasi prediksi, namun juga **menjawab tantangan nyata di bidang kesehatan masyarakat**. Dengan demikian, model yang dikembangkan memiliki nilai praktis tinggi dan selaras dengan *business understanding* dari proyek ini: yaitu menyediakan solusi data-driven untuk membantu menurunkan beban stroke secara nasional melalui deteksi dini.
+
