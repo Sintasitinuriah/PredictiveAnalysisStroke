@@ -260,14 +260,14 @@ Classification report memberikan metrik evaluasi secara lebih mendetail, termasu
 Brikut klasifikasi report yang didapatkan dari seluruh algoritma.
 1. Logistic Regression Evaluation:
 
-              precision    recall  f1-score   support
+                  precision    recall  f1-score   support
 
-           0       0.98      0.74      0.85       848
-           1       0.10      0.70      0.17        33
+              0       0.98      0.74      0.85       848
+              1       0.10      0.70      0.17        33
 
-          accurac                      0.74       881
-        macro avg  0.54      0.72      0.51       881
-      weighted avg 0.95      0.74      0.82       881
+          accuracy                         0.74       881
+          macro avg    0.54      0.72      0.51       881
+          weighted avg 0.95      0.74      0.82       881
 
 2. Random Forest Classifier Evaluation:
 
@@ -276,31 +276,31 @@ Brikut klasifikasi report yang didapatkan dari seluruh algoritma.
            0       0.97      0.91      0.94       848
            1       0.10      0.27      0.15        33
 
-        accuracy                        0.88       881
-       macro avg    0.54      0.59      0.54       881
-      weighted avg  0.94      0.88      0.91       881
+        accuracy                         0.88       881
+        macro avg    0.54      0.59      0.54       881
+        weighted avg 0.94      0.88      0.91       881
 
 3. XGBoost Evaluation:
 
-      precision    recall  f1-score   support
+               precision    recall  f1-score   support
 
-           0       0.98      0.77      0.86       848
-           1       0.09      0.61      0.16        33
+            0       0.98      0.77      0.86       848
+            1       0.09      0.61      0.16        33
 
-        accuracy                       0.76       881
-        macro avg  0.54      0.69      0.51       881
-      weighted avg 0.95      0.76      0.83       881
+        accuracy                         0.76       881
+        macro avg    0.54      0.69      0.51       881
+        weighted avg 0.95      0.76      0.83       881
 
 4. XGBoost With Hyperparameter Tunning
 
               precision    recall  f1-score   support
 
-           0       0.97      0.91      0.94       848
-           1       0.11      0.27      0.16        33
+            0       0.97      0.91      0.94       848
+            1       0.11      0.27      0.16        33
 
-        accuracy                       0.89       881
-        macro avg  0.54      0.59      0.55       881
-      weighted avg 0.94      0.89      0.91       881
+        accuracy                         0.89       881
+        macro avg    0.54      0.59      0.55       881
+        weighted avg 0.94      0.89      0.91       881
 
 ## b. Confussion Matrix
 Confusion matrix memberikan gambaran tentang bagaimana prediksi model dibandingkan dengan nilai asli. Ini menunjukkan jumlah prediksi benar dan salah untuk setiap kelas.
