@@ -292,16 +292,14 @@ weighted avg       0.95      0.76      0.83       881
 
 4. XGBoost With Hyperparameter Tunning
 
-[[775  73]
- [ 24   9]]
               precision    recall  f1-score   support
 
            0       0.97      0.91      0.94       848
            1       0.11      0.27      0.16        33
 
-    accuracy                           0.89       881
-   macro avg       0.54      0.59      0.55       881
-weighted avg       0.94      0.89      0.91       881
+           accuracy                           0.89       881
+           macro avg       0.54      0.59      0.55       881
+           weighted avg       0.94      0.89      0.91       881
 
 ## b. Confussion Matrix
 Confusion matrix memberikan gambaran tentang bagaimana prediksi model dibandingkan dengan nilai asli. Ini menunjukkan jumlah prediksi benar dan salah untuk setiap kelas.
@@ -311,23 +309,23 @@ Confusion matrix memberikan gambaran tentang bagaimana prediksi model dibandingk
 - False Negatives (FN): Jumlah kasus positif yang diprediksi negatif (Type II error).
 - Logistic Regression:
 
-[[524  45]
- [ 18   8]]
+   [[524  45]
+    [ 18   8]]
 
 - Random Forest Classifier:
 
-[[770  78]
- [ 24   9]]
+    [[770  78]
+     [ 24   9]]
 
 - XGBoost
 
-[[649 199]
- [ 13  20]]
+    [[649 199]
+     [ 13  20]]
 
 - XGBoost With HyperParameterTunning
 
-[[775  73]
- [ 24   9]]
+    [[775  73]
+     [ 24   9]]
 
 
 ---
