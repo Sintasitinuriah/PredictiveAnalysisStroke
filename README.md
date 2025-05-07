@@ -260,13 +260,14 @@ Classification report memberikan metrik evaluasi secara lebih mendetail, termasu
 Brikut klasifikasi report yang didapatkan dari seluruh algoritma.
 1. Logistic Regression Evaluation:
 
-|class|Precision|recall|f1-score|support|
-|-----|---------|------|--------|-------|
-|0|0.97|0.75|0.85|569|
-|1|0.08|0.46|0.13|26|
-|accuracy|||0.74|595|
-|macro avg|0.52|0.61|0.49|595|
-|weighted avg|0.93|0.74|0.82|595|
+              precision    recall  f1-score   support
+
+           0       0.98      0.74      0.85       848
+           1       0.10      0.70      0.17        33
+
+          accurac                      0.74       881
+        macro avg  0.54      0.72      0.51       881
+      weighted avg 0.95      0.74      0.82       881
 
 2. Random Forest Classifier Evaluation:
 
@@ -275,9 +276,9 @@ Brikut klasifikasi report yang didapatkan dari seluruh algoritma.
            0       0.97      0.91      0.94       848
            1       0.10      0.27      0.15        33
 
-    accuracy                           0.88       881
-   macro avg       0.54      0.59      0.54       881
-weighted avg       0.94      0.88      0.91       881
+        accuracy                        0.88       881
+       macro avg    0.54      0.59      0.54       881
+      weighted avg  0.94      0.88      0.91       881
 
 3. XGBoost Evaluation:
 
@@ -286,9 +287,9 @@ weighted avg       0.94      0.88      0.91       881
            0       0.98      0.77      0.86       848
            1       0.09      0.61      0.16        33
 
-    accuracy                           0.76       881
-   macro avg       0.54      0.69      0.51       881
-weighted avg       0.95      0.76      0.83       881
+        accuracy                       0.76       881
+        macro avg  0.54      0.69      0.51       881
+      weighted avg 0.95      0.76      0.83       881
 
 4. XGBoost With Hyperparameter Tunning
 
@@ -309,22 +310,26 @@ Confusion matrix memberikan gambaran tentang bagaimana prediksi model dibandingk
 - False Negatives (FN): Jumlah kasus positif yang diprediksi negatif (Type II error).
 - Logistic Regression:
 
-   -[[524  45]
-    [ 18   8]]
+    [[524  45]
+
+     [ 18   8]]
 
 - Random Forest Classifier:
 
     [[770  78]
+
      [ 24   9]]
 
 - XGBoost
 
     [[649 199]
+
      [ 13  20]]
 
 - XGBoost With HyperParameterTunning
 
     [[775  73]
+
      [ 24   9]]
 
 
