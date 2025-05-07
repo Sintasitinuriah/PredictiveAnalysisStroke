@@ -131,13 +131,16 @@ Tahapan ini bertujuan untuk menyiapkan data agar siap digunakan dalam proses pem
 
 ### a. Penanganan Missing Value dan Outliers
  - Strategi penanganan missing value pada `bmi`:
-  - Imputasi menggunakan nilai **median** untuk menjaga distribusi data.
+   Imputasi menggunakan nilai **median** untuk menjaga distribusi data.
   - Alternatif: menggunakan model prediktif untuk imputasi jika jumlah missing value signifikan.
-- Strategi penanganan Outliers pada `avg_glucose_level` dan `bmi` :
-  - Menggunakan metode **IQR (Interquartile Range)** untuk deteksi.
+  - Strategi penanganan Outliers pada `avg_glucose_level` dan `bmi` :
+   Menggunakan metode **IQR (Interquartile Range)** untuk deteksi.
   - Transformasi log atau winsorizing jika diperlukan.
+  - Menghapus nilai duplikat pada dataset
 
 ### b. Encoding Fitur Kategori
+- Sebelum dilakukan encoding pada fitur katergori, penghapusan fitur yang tidak diperlukan juga dibutuhkan, pada project ini dihapus fitur `id` karena tidak memiliki korelasi yang berarti.
+- Setelah itu proses encoding data.
 - **Tujuan:** Mengubah fitur kategorik menjadi bentuk numerik agar dapat diproses oleh algoritma machine learning.
 - **Metode:**
   - **Label Encoding**: digunakan untuk fitur biner seperti `gender`, `ever_married`, `Residence_type`.
