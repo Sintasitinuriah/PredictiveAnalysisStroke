@@ -257,7 +257,8 @@ Classification report memberikan metrik evaluasi secara lebih mendetail, termasu
 - Recall (Sensitivity): Proporsi kasus positif yang benar-benar terdeteksi.
 - F1-Score: Rata-rata harmonis antara precision dan recall.
 - Support: Jumlah contoh dalam masing-masing kelas (0 dan 1).
-Salah-satu contoh klasifikasi report pada Logistic Regression Evaluation:
+Brikut klasifikasi report yang didapatkan dari seluruh algoritma.
+1. Logistic Regression Evaluation:
 
 |class|Precision|recall|f1-score|support|
 |-----|---------|------|--------|-------|
@@ -267,15 +268,67 @@ Salah-satu contoh klasifikasi report pada Logistic Regression Evaluation:
 |macro avg|0.52|0.61|0.49|595|
 |weighted avg|0.93|0.74|0.82|595|
 
+2. Random Forest Classifier Evaluation:
+
+              precision    recall  f1-score   support
+
+           0       0.97      0.91      0.94       848
+           1       0.10      0.27      0.15        33
+
+    accuracy                           0.88       881
+   macro avg       0.54      0.59      0.54       881
+weighted avg       0.94      0.88      0.91       881
+
+3. XGBoost Evaluation:
+
+      precision    recall  f1-score   support
+
+           0       0.98      0.77      0.86       848
+           1       0.09      0.61      0.16        33
+
+    accuracy                           0.76       881
+   macro avg       0.54      0.69      0.51       881
+weighted avg       0.95      0.76      0.83       881
+
+4. XGBoost With Hyperparameter Tunning
+
+[[775  73]
+ [ 24   9]]
+              precision    recall  f1-score   support
+
+           0       0.97      0.91      0.94       848
+           1       0.11      0.27      0.16        33
+
+    accuracy                           0.89       881
+   macro avg       0.54      0.59      0.55       881
+weighted avg       0.94      0.89      0.91       881
+
 ## b. Confussion Matrix
 Confusion matrix memberikan gambaran tentang bagaimana prediksi model dibandingkan dengan nilai asli. Ini menunjukkan jumlah prediksi benar dan salah untuk setiap kelas.
 - True Positives (TP): Jumlah kasus positif yang diprediksi positif.
 - True Negatives (TN): Jumlah kasus negatif yang diprediksi negatif.
 - False Positives (FP): Jumlah kasus negatif yang diprediksi positif (Type I error).
 - False Negatives (FN): Jumlah kasus positif yang diprediksi negatif (Type II error).
-contoh Confussion Matrix dengan model Logistic Regression:
+- Logistic Regression:
+
 [[524  45]
  [ 18   8]]
+
+- Random Forest Classifier:
+
+[[770  78]
+ [ 24   9]]
+
+- XGBoost
+
+[[649 199]
+ [ 13  20]]
+
+- XGBoost With HyperParameterTunning
+
+[[775  73]
+ [ 24   9]]
+
 
 ---
 ## 2. Dampak terhadap Business Understanding
